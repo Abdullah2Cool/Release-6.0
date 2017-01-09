@@ -10,8 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import box2dLight.RayHandler;
+
 public class GamGeoDash extends Game {
     ScrPlay scrPlay;
+    ScrSplashScreen scrSplashScreen;
     int nWidth, nHeight;
     float Magnification;
     OrthographicCamera camera;
@@ -20,6 +23,7 @@ public class GamGeoDash extends Game {
     SpriteBatch batch;
     public static int PPM = 32;
     public static boolean bPlayerDead;
+    RayHandler rayHandler;
 
     @Override
     public void create() {
@@ -35,9 +39,11 @@ public class GamGeoDash extends Game {
         camera.position.set(camera.viewportWidth - camera.viewportWidth / 2, camera.viewportHeight - camera.viewportHeight / 2, 0);
         world = new World(new Vector2(0, -100f), false);
         b2dr = new Box2DDebugRenderer();
+        rayHandler = new RayHandler(world);
         scrPlay = new ScrPlay(this);
+        scrSplashScreen = new ScrSplashScreen(this);
         bPlayerDead = false;
-        setScreen(scrPlay);
+        setScreen(scrSplashScreen);
     }
 
     @Override
@@ -62,6 +68,9 @@ public class GamGeoDash extends Game {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         b2dr.render(world, camera.combined);
+        rayHandler.setCombinedMatrix(camera.combined, camera.position.x,
+                camera.position.y, camera.viewportWidth, camera.viewportHeight);
+        rayHandler.updateAndRender();
     }
 
     @Override

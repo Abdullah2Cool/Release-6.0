@@ -27,7 +27,7 @@ public class ScrPlay implements Screen {
     public ScrPlay(GamGeoDash game) {
         this.game = game;
         map = new Map("map.tmx", game.world);
-        rayHandler = new RayHandler(game.world);
+        this.rayHandler = game.rayHandler;
         player = new Player(new Vector2(150, 200), 32, this.game.world, "geoDash.png", rayHandler);
         batch = game.batch;
         contactListener = new ContactListener1();
@@ -62,9 +62,6 @@ public class ScrPlay implements Screen {
         } else {
             rayHandler.setAmbientLight(0.1f);
         }
-        rayHandler.setCombinedMatrix(game.camera.combined, game.camera.position.x,
-                game.camera.position.y, game.camera.viewportWidth, game.camera.viewportHeight);
-        rayHandler.updateAndRender();
     }
 
     public Player getPlayer () {
