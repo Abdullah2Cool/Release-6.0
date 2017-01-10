@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -24,6 +25,7 @@ public class GamGeoDash extends Game {
     public static int PPM = 32;
     public static boolean bPlayerDead;
     RayHandler rayHandler;
+    ShapeRenderer shape;
 
     @Override
     public void create() {
@@ -40,6 +42,7 @@ public class GamGeoDash extends Game {
         world = new World(new Vector2(0, -100f), false);
         b2dr = new Box2DDebugRenderer();
         rayHandler = new RayHandler(world);
+        shape = new ShapeRenderer();
         scrPlay = new ScrPlay(this);
         scrSplashScreen = new ScrSplashScreen(this);
         bPlayerDead = false;
@@ -71,6 +74,7 @@ public class GamGeoDash extends Game {
         rayHandler.setCombinedMatrix(camera.combined, camera.position.x,
                 camera.position.y, camera.viewportWidth, camera.viewportHeight);
         rayHandler.updateAndRender();
+        shape.setProjectionMatrix(camera.combined);
     }
 
     @Override
@@ -87,5 +91,7 @@ public class GamGeoDash extends Game {
         b2dr.dispose();
         batch.dispose();
         scrPlay.dispose();
+        rayHandler.dispose();
+        shape.dispose();
     }
 }
