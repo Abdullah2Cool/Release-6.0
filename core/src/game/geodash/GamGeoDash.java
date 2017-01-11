@@ -2,6 +2,7 @@ package game.geodash;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,9 +14,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import box2dLight.RayHandler;
 
-public class GamGeoDash extends Game {
+public class GamGeoDash extends Game implements InputProcessor {
     ScrPlay scrPlay;
     ScrSplashScreen scrSplashScreen;
+    ScrMenu scrMenu;
     int nWidth, nHeight;
     float Magnification;
     OrthographicCamera camera;
@@ -31,7 +33,7 @@ public class GamGeoDash extends Game {
     public void create() {
         nWidth = Gdx.graphics.getWidth();
         nHeight = Gdx.graphics.getHeight();
-        Magnification = 2f;
+        Magnification = 1f;
         batch = new SpriteBatch();
 //		camera = new OrthographicCamera();
 //		camera.setToOrtho(false, nWidth / 2 / Magnification, nHeight / 2 / Magnification);
@@ -45,8 +47,10 @@ public class GamGeoDash extends Game {
         shape = new ShapeRenderer();
         scrPlay = new ScrPlay(this);
         scrSplashScreen = new ScrSplashScreen(this);
+        scrMenu = new ScrMenu(this);
         bPlayerDead = false;
         setScreen(scrSplashScreen);
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -62,6 +66,7 @@ public class GamGeoDash extends Game {
 
     public void updateView() {
         world.step(1 / 60f, 6, 2);
+//        world.step(1/ 60f, 10, 10);
         camera.position.x = scrPlay.getPlayer().getPosition().x + 250;
         camera.position.y = scrPlay.getPlayer().getPosition().y + 60;
 //        camera.position.y = scrPlay.player.getPosition().y - 120;
@@ -93,5 +98,46 @@ public class GamGeoDash extends Game {
         scrPlay.dispose();
         rayHandler.dispose();
         shape.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        System.out.println(screenX + ", " + screenY);
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

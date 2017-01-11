@@ -42,6 +42,15 @@ public class Player implements InputProcessor {
         light = new Light(rayHandler, 100, 200, 50);
     }
 
+    public void draw(SpriteBatch batch) {
+//        vPos.set(pBody.getPosition().x * PPM, pBody.getPosition().y * PPM);
+        vPos.set(pBody.getPosition().scl(PPM));
+        batch.draw(spPlayer, vPos.x - 16, vPos.y - 16, spPlayer.getOriginX(), spPlayer.getOriginY(),
+                spPlayer.getWidth(), spPlayer.getHeight(), 1, 1, (float) Math.toDegrees(pBody.getAngle()));
+        move();
+        light.update(vPos);
+    }
+
     private Body createBody(Vector2 vPos, float fLength) {
         Body pBody;
         BodyDef def = new BodyDef();
@@ -62,19 +71,11 @@ public class Player implements InputProcessor {
         return pBody;
     }
 
-    public void draw(SpriteBatch batch) {
-        vPos.set(pBody.getPosition().x * PPM, pBody.getPosition().y * PPM);
-        batch.draw(spPlayer, vPos.x - 16, vPos.y - 16, spPlayer.getOriginX(), spPlayer.getOriginY(),
-                spPlayer.getWidth(), spPlayer.getHeight(), 1, 1, (float) Math.toDegrees(pBody.getAngle()));
-        move();
-        light.update(pBody);
-    }
-
     public void move() {
         pBody.setLinearVelocity(fSpeed, pBody.getLinearVelocity().y);
     }
 
-    public void reset () {
+    public void reset() {
         pBody.setTransform(vInitialPos.x / PPM, vInitialPos.y / PPM, 0);
     }
 

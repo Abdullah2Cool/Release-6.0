@@ -24,7 +24,7 @@ public class ScrSplashScreen implements Screen {
     private float fLoading;
     private Sprite spLogo;
     private ShapeRenderer shape;
-    private boolean bLighup = true, bShowLogo = false, bShowLoading = false, bDimOut = false;
+    private boolean bLights = true, bShowLogo = false, bShowLoading = false, bDimOut = false;
 
     public ScrSplashScreen(GamGeoDash game) {
         this.game = game;
@@ -41,18 +41,18 @@ public class ScrSplashScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(46 / 255f, 210 / 255f, 255 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (bLighup) {
+        if (bLights) {
             fAmbiance += 0.01;
             if (fAmbiance >= 1) {
-                bLighup = false;
+                bLights = false;
                 bShowLogo = true;
             }
         }
         if (bShowLogo) {
             if (fScale <= 0.8f) {
-                fScale += 0.01;
+                fScale += 0.05;
                 spLogo.setScale(fScale);
             } else {
                 bShowLoading = true;
@@ -64,7 +64,8 @@ public class ScrSplashScreen implements Screen {
         }
         if (bShowLoading) {
             if (fLoading <= 200) {
-                fLoading += 1;
+//                fLoading += 5;
+                fLoading += Math.random() * 5 + 1;
             } else {
                 bDimOut = true;
             }
@@ -79,9 +80,9 @@ public class ScrSplashScreen implements Screen {
             shape.end();
         }
         if (bDimOut) {
-            fAmbiance -= 0.01;
+            fAmbiance -= 0.1;
             if (fAmbiance <= 0) {
-                game.setScreen(game.scrPlay);
+                game.setScreen(game.scrMenu);
             }
         }
         rayHandler.setAmbientLight(fAmbiance);

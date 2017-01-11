@@ -26,7 +26,7 @@ public class ScrPlay implements Screen {
 
     public ScrPlay(GamGeoDash game) {
         this.game = game;
-        map = new Map("map.tmx", game.world);
+        map = new Map("map.tmx", game.world, true);
         this.rayHandler = game.rayHandler;
         player = new Player(new Vector2(150, 200), 32, this.game.world, "geoDash.png", rayHandler);
         batch = game.batch;

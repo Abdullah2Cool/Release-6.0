@@ -24,14 +24,15 @@ public class Map {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private TiledMap map;
     private World world;
-    Spikes spikes;
 
-    public Map(String sPath, World world) {
+    public Map(String sPath, World world, boolean bSpikes) {
         map = new TmxMapLoader().load(sPath);
         this.world = world;
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
         loadObstacles(map.getLayers().get("platforms").getObjects());
-        spikes = new Spikes(map, world, "death");
+        if (bSpikes) {
+            Spikes spikes = new Spikes(map, world, "death");
+        }
     }
 
     public void draw(OrthographicCamera camera) {
